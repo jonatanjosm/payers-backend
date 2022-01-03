@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
                             
 const playerSchema = new Schema({
     id: String,
+    idTeam: String,
     nombre: String,
     apellido: String,
     nombreCorto: String,
@@ -28,6 +29,10 @@ const teamSchema = new Schema({
 });
 
 
-const model = mongoose.model('teams', mySchema);
+const teamModel = mongoose.model('teams', teamSchema);
+const playerModel = mongoose.model('players', playerSchema);
 
-module.exports = model;
+module.exports = {
+    teamModel,
+    playerModel
+};

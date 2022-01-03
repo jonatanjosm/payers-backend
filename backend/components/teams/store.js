@@ -1,7 +1,8 @@
 const db = require('mongoose');
-const config = require('../../config/index');
-const Model = require('./model');
+const config = require('../../config');
+const {teamModel, playerModel} = require('./model');
 
+console.log(config);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 const DB_NAME = config.dbName;
 
@@ -23,25 +24,25 @@ try{
 }    
 
 async function listTeams () {
-    const teams = await Model.find();
+    const teams = await teamModel.find();
     return teams;
 };
 
 async function listPlayersByTeam (idTeam) {
     let filter = {
-        'id': `${idTeam}`
+        "idTeam": { $eq:  `${idTeam}` }
     }
     console.log(filter);
-    const players = await Model.find( filter );
+    const players = await playerModel.find( filter );
     return players;
 };
 
 async function listPlayersByPosition (position) {
     let filter = {
-        "jugadores.jugador.rol.#text": { $gte: position }
+        "rol": { $eq: position }
     }
     console.log(filter);
-    const players = await Model.find( filter );
+    const players = await playerModel.find( filter );
     return players;
 };
 

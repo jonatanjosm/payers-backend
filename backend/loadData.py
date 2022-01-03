@@ -46,6 +46,7 @@ def extractPlayers(obj):
                     print ('None value')
                 newPlayer = {
                     "id": player['@id'],
+                    "idTeam": team['@id'],
                     "rol": player['rol']['#text'],
                     "nombre": player['nombre'],
                     "apellido": player['apellido'],
