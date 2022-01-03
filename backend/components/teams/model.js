@@ -2,40 +2,29 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const rolSchema = new Schema({
-    "@idRol": String,
-    "#text": String
-});
+
                             
 const playerSchema = new Schema({
-    "@id": String,
+    id: String,
     nombre: String,
+    apellido: String,
     nombreCorto: String,
-    rol: rolSchema
+    fechaNacimiento: Date,
+    rol: String,
+    edad: Number,
+    peso: Number,
+    altura: Number,
+    camiseta: Number
 });
 
-const playersSchema = new Schema({
-    jugador: [playerSchema]
-});
 
-const mySchema = new Schema({
-    "@id": String,
+const teamSchema = new Schema({
+    id: String,
     nombre: String,
     sigla: String,
     paisId: String,
     paisNombre: String,
-    tipo: String,
-    jugadores: [{
-        jugador: [{
-            "@id": String,
-            nombre: String,
-            nombreCorto: String,
-            rol: {
-                "@idRol": String,
-                "#text": String
-            }
-        }]
-    }]
+    tipo: String
 });
 
 

@@ -1,20 +1,80 @@
+# -*- coding: utf-8 -*-
+# Encoding: UTF-8
+
+from logging import log
 import requests
-import xmltodict, json
+import xmltodict
 import os
 from dotenv import load_dotenv
 import pymongo
 import sys
+from datetime import datetime
 
+def extractTeams(obj):
+    print ("[LOG-INFO] Extrayendo los equipos")
+    teams = []
+    for team in obj:
+        newTeam = {
+            "id": team['@id'],
+            "nombre": team['@nombre'],
+            "sigla": team['@sigla'],
+            "paisId": team['@paisId'],
+            "paisNombre": team['@paisNombre'],
+            "tipo": team['@tipo'],
+            "cantJugadores": team['jugadores']['@cant']
+        }
+        teams.append(newTeam)
+    return teams
+
+def extractPlayers(obj):
+    print ("[LOG-INFO] Extrayendo los jugadores")
+    try:
+        players = []
+        for team in obj:
+            for player in team['jugadores']['jugador']:
+
+                birthDate = player['fechaNacimiento'] if player['fechaNacimiento'] != None else "1900-01-01"
+
+                birthTime = player['horaNacimiento'] if player['horaNacimiento'] != None else "00:00:00"
+
+                age = int(player['edad']) if player['edad'] != None else 0
+                weight = int(player['peso']) if player['peso'] != None else 0
+                height = int(player['altura']) if player['altura'] != None else 0
+                number = int(player['camiseta']) if player['camiseta'] != None else 0
+
+                if birthTime == None:
+                    print ('None value')
+                newPlayer = {
+                    "id": player['@id'],
+                    "rol": player['rol']['#text'],
+                    "nombre": player['nombre'],
+                    "apellido": player['apellido'],
+                    "nombreCorto": player['nombreCorto'],
+                    "fechaNacimiento": datetime.strptime(birthDate + 'T' + birthTime, '%Y-%m-%dT%H:%M:%S'),
+                    "horaNacimiento": birthTime,
+                    "edad": age,
+                    "peso": weight,
+                    "altura": height,
+                    "camiseta": number,
+                    "pais": player['pais'],
+                }
+                players.append(newPlayer)
+        return players
+    except Exception as e:
+        print("[LOG-ERROR] Hubo un error extrayendo los jugadores")
+        print(e)
 
 def getData():
     try:
         print ("[LOG-INFO] Cargando datos del XML")
         url = os.getenv('XML_DATA')
-        
-        response = requests.get(url)
+        headers = {'Content-Type': 'text/xml; charset=utf-8',  'Accept': 'text/xml', 'Accept-Encoding': 'gzip, deflate, br'}
+
+        response = requests.get(url, headers = headers)
 
         xmlData = response.content
-        obj = xmltodict.parse(xmlData)
+        #print(xmlData)
+        obj = xmltodict.parse(xmlData, encoding='utf-8')
         
         return obj['plantelEquipo']['equipo']
     except Exception as e:
@@ -41,10 +101,10 @@ def connectMongoDB():
         print (e)
         return None
 
-def insertData(fanatiz_db, data_):
+def insertData(db, collection, data_):
     try:
         print ("[LOG-INFO] Insertando en la base de datos")
-        ids = fanatiz_db.teams.insert_many(data_).inserted_ids
+        ids = db[collection].insert_many(data_).inserted_ids
         print ("[LOG-INFO] Los datos han sido insertados ")
         return ids
     except Exception as e:
@@ -56,8 +116,8 @@ def main():
     try:
         load_dotenv()
 
-        client = connectMongoDB() 
-        if client == None:
+        fanatiz_db = connectMongoDB() 
+        if fanatiz_db == None:
             return None
             
         data = getData()
@@ -65,9 +125,17 @@ def main():
         if data == None:
             return None
         
-        idInsert = insertData(client, data)
-        if idInsert == None:
+        teams = extractTeams(data)
+        players = extractPlayers(data)
+
+        idsInsertTeams = insertData(fanatiz_db,"teams", teams)
+        if idsInsertTeams == None:
             return None
+
+        idsInsertPlayers = insertData(fanatiz_db,"players", players)
+        if idsInsertPlayers == None:
+            return None
+
     except Exception as e:
         print("[LOG-ERROR] Hubo un error al intentar cargar los datos a la BD")
         print (e)

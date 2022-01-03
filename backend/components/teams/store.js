@@ -29,7 +29,7 @@ async function listTeams () {
 
 async function listPlayersByTeam (idTeam) {
     let filter = {
-        '@id': `${idTeam}`
+        'id': `${idTeam}`
     }
     console.log(filter);
     const players = await Model.find( filter );
