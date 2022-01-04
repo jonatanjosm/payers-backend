@@ -6,7 +6,7 @@ const controller = require('./controller');
 
 
 router.post('/create', function (req, res, number){
-    const errorMessage = 'Ha ocurrido un error al crear el usuario';
+    const errorMessage = 'An error has occurred while creating user';
     try{
         controller.createUserBussiness(req.body)
             .then((data) => {
@@ -27,7 +27,7 @@ router.post('/create', function (req, res, number){
 })
 
 router.post('/login', function (req, res, number){
-    const errorMessage = 'Ha ocurrido un error iniciar sesion';
+    const errorMessage = 'An error has occurred while logging in';
     try{
         controller.logInBussiness(req.body)
             .then((data) => {

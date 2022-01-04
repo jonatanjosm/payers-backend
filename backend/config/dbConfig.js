@@ -15,8 +15,8 @@ try{
         useNewUrlParser: true
     });
 
-    console.log("[db] Conectada con éxito");
+    console.log("[LOG-INFO] Database connection established");
 }catch(err){
-    console.error("[DB-ERROR] Hubo un error al conectarse a la base de datos");
+    console.error("[LOG-ERROR] An error has occurred while connecting database");
     console.error(err);
 }    

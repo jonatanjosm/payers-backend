@@ -16,6 +16,11 @@ function generateToken(userInfo) {
     return token;
 }
 
+function verifyToken(token) {
+    return jwt.verify(token, config.secret);
+}
+
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 };

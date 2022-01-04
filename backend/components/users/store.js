@@ -9,7 +9,7 @@ async function createUser(userData) {
         user.save();
         return true;
     } catch (error) {
-        console.error('[ERROR] error al crear usuario')
+        console.error('[LOG-ERROR] An error has occurred while creating user')
         console.log(error)
         return false;
     }
@@ -19,6 +19,7 @@ async function findUser (username) {
     let filter = {
         "user": { $eq:  `${username}` }
     }
+    onsole.log("[LOG-INFO] Search user filter");
     console.log(filter);
     const user = await userModel.find( filter );
     return user;

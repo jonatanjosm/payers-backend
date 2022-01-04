@@ -6,7 +6,8 @@ const controller = require('./controller');
 
 
 router.get('/', checkApiKey, function (req, res, number){
-    const errorMessage = 'Ha ocurrido un error al consultar los equipos';
+    console.log("[LOG-INFO] List teams service");
+    const errorMessage = 'An error has occurred while searching teams';
     //console.log(res);
     if(res.statusCode != 401){
         try{
@@ -25,8 +26,8 @@ router.get('/', checkApiKey, function (req, res, number){
 })
 
 router.get('/:id/players', checkApiKey, function (req, res){
-
-    const errorMessage = 'Ha ocurrido un error al consultar los jugadores';
+    console.log("[LOG-INFO] List players by team service");
+    const errorMessage = 'An error has occurred while searching players';
     if(res.statusCode != 401){
         try{
             const teamId = req.params.id;
@@ -45,8 +46,8 @@ router.get('/:id/players', checkApiKey, function (req, res){
 })
 
 router.get('/players/:position', checkApiKey, function (req, res){
-
-    const errorMessage = 'Ha ocurrido un error al consultar los jugadores';
+    console.log("[LOG-INFO] List players by position service");
+    const errorMessage = 'An error has occurred while searching players';
     if(res.statusCode != 401){
         try{
             const position = req.params.position;
