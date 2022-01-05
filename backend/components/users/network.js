@@ -34,11 +34,11 @@ router.post('/login', function (req, res, number){
                 if(data){
                     response.success(req, res, data);
                 } else {
-                    response.error(req, res, errorMessage, 500, "Error");   
+                    response.error(req, res, errorMessage, 200, "Error");   
                 }
             })
             .catch((message) => {
-                response.error(req, res, message, 500, errorMessage);
+                response.error(req, res, message, 200, errorMessage);
             });
     }catch (err) {
         console.error(err);
