@@ -19,7 +19,7 @@ async function findUser (username) {
     let filter = {
         "user": { $eq:  `${username}` }
     }
-    onsole.log("[LOG-INFO] Search user filter");
+    console.log("[LOG-INFO] Search user filter");
     console.log(filter);
     const user = await userModel.find( filter );
     return user;

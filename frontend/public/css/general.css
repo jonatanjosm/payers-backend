@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "Gilroy-Bold";
+  src: url("/fonts/Gilroy-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-Medium";
+  src: url("/fonts/Gilroy-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-BlackItalic";
+  src: url("/fonts/Gilroy-BlackItalic.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-BoldItalic";
+  src: url("/fonts/Gilroy-BoldItalic.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-Light";
+  src: url("/fonts/Gilroy-Light.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-Regular";
+  src: url("/fonts/Gilroy-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Gilroy-Black";
+  src: url("/fonts/Gilroy-Black.ttf");
+}
+
+body {
+  color: #434349!important;
+  font-family: Gilroy-Regular !important;
+}
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #dee2e6;
+}
+
+.text-danger {
+  color: #ff5454 !important;
+}
+
+.gil-bold {
+  font-family: Gilroy-Bold;
+}
+
+.divider {
+  height: 2px;
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  background-color: #D8D8D8;
+}
+
+.type14 {
+  font-size: 14px !important;
+}
+
+.type18 {
+  font-size: 18px !important;
+}
+
+.type20 {
+  font-size: 20px !important;
+}
+
+.type23 {
+  font-size: 23px !important;
+}
+
+.purple {
+  color: #5916bc;
+}
+
+.red {
+  color: #ff5454;
+}
+
+.green {
+  color: #00d28a;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.black {
+  color: #434349;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+html {
+  font-size: 16px;
+}
