@@ -3,7 +3,6 @@
  */
 export class IO {
     static urlbase = 'http://localhost:3030/api/';
-    static token = null;
     /**
      * Filtro para las peticiones
      * @param {*} data
@@ -32,9 +31,9 @@ export class IO {
       let headers = {
         'Content-Type': 'application/json',
       };
-  
-      if (IO.token) {
-        headers.token = IO.token;
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.token = token;
       }
       
       return new Promise((resolveRequest) => {

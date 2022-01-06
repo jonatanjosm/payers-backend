@@ -1,46 +1,71 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Head from "next/head"
 import { validateCreateUser } from '../business/Auth';
-import { IO } from '../business/IO';
 
 
 const Index = () =>{
     const inputUser = useRef(null);
     const inputPass = useRef();
-    const [errorAlert, setErrorAlert] = useState({ state: false, message: null });
+    const [messageAlert, setMessageAlert] = useState({ status: false, message: null, type: null });
+    const [newUser, setNewUser] = useState(false);
+
+    useEffect(()=>{
+        inputUser.current.value = "";
+        inputPass.current.value = "";
+    },[newUser])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(inputUser.current.value);
+        
+        const endpoint = !!newUser ? 'users/create' : 'users/login';
+        
         validateCreateUser({
             user: inputUser.current.value,
             password: inputPass.current.value
-        }, 'users/login')
+        }, endpoint)
         .then((response) => {
             if(response.error){
-                setErrorAlert({
+                setMessageAlert({
                     status: true,
-                    message: response.message 
+                    message: response.message,
+                    type: 'alert alert-danger'
                 })
                 setTimeout(() => {
-                    setErrorAlert({
+                    setMessageAlert({
                         status: false,
-                        message: null 
+                        message: null,
+                        type: null
                     }) 
                 }, 3000);
             } else {
                 console.log(response.body);
-                setErrorAlert({
-                    status: false,
-                    message: null 
-                })
-                IO.token = response.body.token;
+                if(!!newUser){
+                    setMessageAlert({
+                        status: true,
+                        message: "Usuario creado",
+                        type: 'alert alert-success' 
+                    })
+                    setTimeout(() => {
+                        setMessageAlert({
+                            status: false,
+                            message: null 
+                        }) 
+                        setNewUser(false);
+                    }, 3000);
+                }else{
+                    setMessageAlert({
+                        status: false,
+                        message: null 
+                    })
+                    localStorage.setItem('token', response.body.token);
+                    window.location.replace("/home");
+                }
             }
         })
         .catch((error) => {
             console.error(error);
         })
-        //window.location.replace("/formulario");
+        //
     }
 
     return(
@@ -53,7 +78,7 @@ const Index = () =>{
             <link rel="stylesheet" href="/css/bootstrap.min.css" />
             
             <link rel="stylesheet" href="/styles/formStyle.css" />
-            <title>Portal Pruebas Fanatiz</title>
+            <title>Portal Fanatiz</title>
             </Head>
             <div className="principalLogin all">
             <div className="containLogin">
@@ -62,11 +87,11 @@ const Index = () =>{
                     <span className="mx-auto my-auto nameHead"><i className="fab fa-cotton-bureau" /> Fanatiz</span>
                 </div>
                 <div className="titleform d-flex">
-                    <span className="mx-auto mt-4 title">Ingresa aquí</span>
+                    <span className="mx-auto mt-4 title">{!!newUser ? 'Crear usuario' : 'Ingresa aquí'}</span>
                 </div>
-                {!!errorAlert.status && 
-                    <div className="alert alert-danger" role="alert">
-                        {errorAlert.message}
+                {!!messageAlert.status && 
+                    <div className={messageAlert.type} role="alert">
+                        {messageAlert.message}
                     </div>
                 }
                 <div className="userform mt-5 d-flex">
@@ -91,11 +116,12 @@ const Index = () =>{
                 </div>
                 <div className="d-flex">
                     <button onSubmit={(e) => handleSubmit(e, inputUser, inputPass) } name="login" className="btn btn-primary mx-auto" type="submit">
-                    Ingresar
+                    {!!newUser ? 'Crear' : 'Ingresar' }
                     </button>
                 </div>
+                
                 <div className="d-flex">
-                    <a href="/newUser" className='mx-auto' >Crear usuario</a>
+                    <button type="button" className="btn btn-link mx-auto" onClick={(e)=>{e.preventDefault; setNewUser(!newUser); return false;}}>{!!newUser ? 'Iniciar sesión' : 'Crear usuario' }</button>
                 </div>
                 </form>
             </div>

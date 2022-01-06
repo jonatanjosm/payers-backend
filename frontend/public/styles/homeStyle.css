@@ -1,0 +1,25 @@
+.HeadForm {
+    width: 100%;
+    height: 60px;
+    background-color: #FFF;
+    border-radius: 30px 30px 30px 30px;
+    margin-top: 20px;
+  }
+  .titleHead {
+    font-size: 25px;
+    font-family: Gilroy-Light;
+  }
+  .principalForm {
+    margin-top: 25px;
+    background-color: #FFF;
+    width: 100%;
+    height: 80%;
+    border-radius: 30px 30px 30px 30px;
+    padding: 30px;
+  }
+  .all {
+    height: 100vh;
+                overflow-x: hidden;
+                overflow-y: auto;
+    background-color: #e4edff;
+  }
