@@ -1,0 +1,15 @@
+{
+  "name": "profiler",
+  "version": "1.0.0",
+  "description": "Profiler script",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jonatan Murcia",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "microprofiler": "^1.0.4"
+  }
+}

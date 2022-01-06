@@ -8,6 +8,7 @@ node_modules/
 dist/
 backend/package-lock.json
 frontend/package-lock.json
+profiler/package-lock.json
 
 frontend/.next/
 # Compiled Java class files
